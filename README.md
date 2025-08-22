@@ -141,12 +141,14 @@ Sumário
 tests/                    # Testes unitários
 ```
 
-## Configuração do Ambiente
+## Configuração & Instalação
+
+> As dependências ficam no `pyproject.toml`.
 
 Clone o repositório e crie um ambiente virtual:
 
 ```
-git clone <repo-url>
+git clone https://github.com/nathadriele/stocks-analytics-2025
 cd stocks-analytics-zoomcamp-2025
 python -m venv .venv
 source .venv/bin/activate   # Windows: .venv\Scripts\activate
@@ -167,18 +169,18 @@ TICKERS=AAPL,MSFT,SPY
 DB_PATH=storage/app.db
 ```
 
-## Como Executar
+## Execução (Makefile)
 
 Os principais comandos são centralizados no Makefile:
 
 ```
-make ingest       # coleta dados do mercado
-make features     # gera features e salva em parquet
+make ingest       # coleta/atualiza dados de mercado
+make features     # gera e salva features
 make train        # treina modelos e salva artefatos
-make signals      # gera sinais de trading
-make backtest     # simula estratégias
-make run_all      # executa o pipeline completo
-make test         # roda testes unitários
+make signals      # converte previsões em sinais
+make backtest     # simula estratégias e exporta relatórios
+make run_all      # pipeline fim-a-fim
+make test         # testes unitários (pytest)
 ```
 
 ## Resultados Esperados
