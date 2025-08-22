@@ -183,6 +183,31 @@ make run_all      # pipeline fim-a-fim
 make test         # testes unitários (pytest)
 ```
 
+## Configuração (.env)
+
+Crie um .env baseado em .env.example:
+
+```
+DATA_START=2015-01-01
+TICKERS=AAPL,MSFT,SPY
+DB_PATH=storage/app.db
+# API_KEY=... (se usar provedores pagos)
+```
+
+## Métricas & Relatórios
+
+- Modelos: MAE/MAPE (regressão); AUC/F1/Accuracy (classificação)
+- Backtest: CAGR, Sharpe, Sortino, Max Drawdown, Volatilidade, WinRate, #Trades, Turnover;
+gráficos de equity curve e drawdown em reports/img/
+
+## Qualidade & Boas Práticas
+
+- Reprodutibilidade: make run_all executa o fluxo completo
+- Time-series split; sem look-ahead; custos e slippage parametrizados
+- Testes (pytest) e lint/format (ruff, black) no CI
+- Segredos fora do repositório (.env, nunca versionar)
+- Documentação clara (README + reports/*)
+
 ## Resultados Esperados
 
 - EDA: gráficos de preços, retornos, correlações e indicadores técnicos.
