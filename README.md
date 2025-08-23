@@ -1,12 +1,14 @@
 # Stocks Analytics 2025
 
-Projeto desenvolvido como parte do Stock Market Analytics Zoomcamp ( 2025). O objetivo é aplicar técnicas de engenharia de dados, análise financeira e machine learning para criar um pipeline reprodutível que vai desde a ingestão de dados de mercado até a simulação de estratégias de trading com automação. Este projeto é estritamente educacional e não constitui recomendação de investimento.
+<img width="1672" height="571" alt="6" src="https://github.com/user-attachments/assets/76b76843-6f1f-4122-9384-28de1e88b30f" />
 
-Sumário
+Projeto desenvolvido como parte do **Stock Market Analytics Zoomcamp (2025)**. O objetivo é aplicar técnicas de engenharia de dados, análise financeira e machine learning para criar um pipeline reprodutível que vai desde a ingestão de dados de mercado até a simulação de estratégias de trading com automação. Este projeto é estritamente educacional e não constitui recomendação de investimento.
+
+## Sumário
+
 - [Visão Geral](#-visao-geral)
 - [Objetivos](#-objetivos)
 - [Informações do Curso](#-informações-do-curso)
-- [Checklist Pré-Curso](#-checklist-précurso)
 - [Materiais de Apoio](#-materiais-de-apoio)
 - [Syllabus → Entregáveis do Projeto](#-syllabus--entregáveis-do-projeto)
 - [Estrutura do Repositório](#-estrutura-do-repositório)
@@ -50,15 +52,6 @@ Sumário
   - Semana 3 → *peer review*
 
 > Modo **self-paced**: todo material é aberto; siga o syllabus semanal e use o Slack para suporte.
-
-## Checklist Pré-Curso
-
-- [ ] Inscrever-se no **PythonInvest** (newsletter/comunicados)  
-- [ ] Entrar no **Slack do DataTalks.Club**  
-- [ ] Participar do canal `#course-stocks-analytics-zoomcamp`  
-- [ ] Entrar no **Telegram** de anúncios do curso  
-- [ ] Acompanhar vídeos no **YouTube/PythonInvest**  
-- [ ] Ler **FAQ** e **Syllabus curto** no site oficial  
 
 ## Materiais de Apoio
 
