@@ -1,13 +1,10 @@
 """
-Geração de sinais de trading a partir de previsões dos modelos.
-
-- Lê features em data/analytics/features.parquet
-- Carrega modelos treinados (regressão e/ou classificação)
-- Converte previsões em sinais de trading (long, short, flat)
-- Salva sinais em data/signals/signals.parquet
+Geração de sinais a partir de modelos (linear, rf, xgb, lstm).
 
 Uso:
-    python -m src.strategy.generate_signals --mode both
+  python -m src.strategy.generate_signals --mode both --algo rf
+  python -m src.strategy.generate_signals --mode reg  --algo xgb
+  python -m src.strategy.generate_signals --mode cls  --algo lstm --seq-len 20
 """
 
 from __future__ import annotations
@@ -19,17 +16,12 @@ from pathlib import Path
 
 from src import config
 from src.utils.io import load_parquet, save_parquet
+from src.models.advanced import feature_columns, prepare_sequences_infer
 
-app = typer.Typer(add_completion=False, help="Geração de sinais de trading")
+app = typer.Typer(add_completion=False, help="Geração de sinais (RF/XGB/LSTM)")
 
 
 def _to_signal_from_regression(pred: float, threshold: float = 0.0) -> int:
-    """
-    Converte previsão de retorno (regressão) em sinal.
-    - Se retorno previsto > threshold → long (+1)
-    - Se retorno previsto < threshold → short (-1)
-    - Caso contrário → flat (0)
-    """
     if pred > threshold:
         return 1
     elif pred < threshold:
@@ -38,44 +30,95 @@ def _to_signal_from_regression(pred: float, threshold: float = 0.0) -> int:
 
 
 def _to_signal_from_classification(prob: float, threshold: float = 0.5) -> int:
-    """
-    Converte probabilidade prevista em sinal.
-    - prob > threshold → long (+1)
-    - prob <= threshold → short (-1)
-    """
     return 1 if prob > threshold else -1
 
 
+def _load_model(algo: str, task: str):
+    algo = algo.lower()
+    task = task.lower()
+    if algo in {"linear", "rf"}:
+        path = config.MODELS_DIR / f"model_{task}_{algo}.pkl"
+        return joblib.load(path), path
+    if algo == "xgb":
+        from xgboost import XGBRegressor, XGBClassifier
+        path = config.MODELS_DIR / f"model_{task}_xgb.json"
+        model = XGBRegressor() if task == "reg" else XGBClassifier()
+        model.load_model(str(path))
+        return model, path
+    if algo == "lstm":
+        from tensorflow.keras.models import load_model
+        path = config.MODELS_DIR / f"model_{task}_lstm.keras"
+        return load_model(str(path)), path
+    raise ValueError(f"Algo desconhecido: {algo}")
+
+
 @app.command("run")
-def run(mode: str = typer.Option("both", help="Opções: reg, cls, both")):
+def run(
+    mode: str = typer.Option("both", help="reg | cls | both"),
+    algo: str = typer.Option("rf", help="linear | rf | xgb | lstm"),
+    seq_len: int = typer.Option(20, help="Comprimento da janela (LSTM)"),
+):
     """
-    Executa geração de sinais.
+    Gera sinais e salva em data/signals/signals.parquet.
     """
     features_path = config.ANALYTICS_DIR / "features.parquet"
     signals_path = config.SIGNALS_DIR / "signals.parquet"
 
-    features = load_parquet(features_path)
-    if features is None or features.empty:
+    feats = load_parquet(features_path)
+    if feats is None or feats.empty:
         typer.secho(f"[signals] Arquivo não encontrado: {features_path}", fg=typer.colors.RED)
         raise typer.Exit(code=1)
 
-    exclude_cols = ["date", "ticker", "target_reg_5d", "target_cls_5d"]
-    X = features[[c for c in features.columns if c not in exclude_cols]].fillna(0)
+    feats = feats.sort_values(["ticker", "date"]).reset_index(drop=True)
+    exclude = {"date", "ticker", "target_reg_5d", "target_cls_5d"}
+    X = feats[[c for c in feats.columns if c not in exclude and pd.api.types.is_numeric_dtype(feats[c])]].fillna(0)
+    base = feats[["date", "ticker"]].copy()
 
-    df_signals = features[["date", "ticker"]].copy()
+    out = base.copy()
 
-    if mode in ("reg", "both"):
-        model_reg = joblib.load(config.MODELS_DIR / "model_reg.pkl")
-        preds_reg = model_reg.predict(X)
-        df_signals["signal_reg"] = [ _to_signal_from_regression(p, threshold=0.0) for p in preds_reg ]
+    # REG
+    if mode in {"reg", "both"}:
+        model, path = _load_model(algo, "reg")
+        if algo == "lstm":
+            cols = feature_columns(feats)
+            data = prepare_sequences_infer(feats, cols, seq_len=seq_len)
+            if len(data.X) == 0:
+                typer.secho("[signals][lstm][reg] Dados insuficientes para inferência.", fg=typer.colors.RED)
+            else:
+                yhat = model.predict(data.X).reshape(-1)
+                dfp = data.index.copy()
+                dfp["signal_reg"] = [ _to_signal_from_regression(v, threshold=0.0) for v in yhat ]
+                out = out.merge(dfp[["ticker","date","signal_reg"]], on=["ticker","date"], how="left")
+        else:
+            yhat = model.predict(X)
+            out["signal_reg"] = [ _to_signal_from_regression(v, threshold=0.0) for v in yhat ]
 
-    if mode in ("cls", "both"):
-        model_cls = joblib.load(config.MODELS_DIR / "model_cls.pkl")
-        probs_cls = model_cls.predict_proba(X)[:, 1]
-        df_signals["signal_cls"] = [ _to_signal_from_classification(p, threshold=0.5) for p in probs_cls ]
+    # CLS
+    if mode in {"cls", "both"}:
+        model, path = _load_model(algo, "cls")
+        if algo == "lstm":
+            cols = feature_columns(feats)
+            data = prepare_sequences_infer(feats, cols, seq_len=seq_len)
+            if len(data.X) == 0:
+                typer.secho("[signals][lstm][cls] Dados insuficientes para inferência.", fg=typer.colors.RED)
+            else:
+                prob = model.predict(data.X).reshape(-1)
+                dfp = data.index.copy()
+                dfp["signal_cls"] = [ _to_signal_from_classification(p, threshold=0.5) for p in prob ]
+                out = out.merge(dfp[["ticker","date","signal_cls"]], on=["ticker","date"], how="left")
+        else:
+            if hasattr(model, "predict_proba"):
+                prob = model.predict_proba(X)[:, 1]
+            else:
+                prob = model.decision_function(X)
+            out["signal_cls"] = [ _to_signal_from_classification(p, threshold=0.5) for p in prob ]
 
-    save_parquet(df_signals, signals_path, index=False)
-    typer.secho(f"[signals] OK: {len(df_signals)} sinais salvos em {signals_path}", fg=typer.colors.GREEN)
+    for col in ["signal_reg", "signal_cls"]:
+        if col in out.columns:
+            out[col] = out[col].fillna(0).astype(int)
+
+    save_parquet(out, signals_path, index=False)
+    typer.secho(f"[signals] OK: {len(out)} linhas salvas em {signals_path} (algo={algo}, mode={mode})", fg=typer.colors.GREEN)
 
 
 if __name__ == "__main__":
