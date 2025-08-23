@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  stocks-analytics:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    image: stocks-analytics:latest
+    container_name: stocks-analytics
+    environment:
+      DATA_START: "2015-01-01"
+      TICKERS: "AAPL,MSFT,SPY"
+      DB_PATH: "/app/storage/app.db"
+      # SMTP_SERVER: ""
+      # SMTP_PORT: "587"
+      # EMAIL_USER: ""
+      # EMAIL_PASSWORD: ""
+      # EMAIL_TO: ""
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+      - ./reports:/app/reports
+      - ./storage:/app/storage
+      - ./logs:/app/logs
+    command: >
+      python -m src.app.run_daily_pipeline
+        --retrain false
+        --signal-col signal_cls
+        --fee-bps 5
+        --slippage-bps 2
+        --skip-backtest false
+    restart: "no"
