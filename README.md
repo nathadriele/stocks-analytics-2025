@@ -3,6 +3,7 @@
 Projeto desenvolvido como parte do Stock Market Analytics Zoomcamp ( 2025). O objetivo é aplicar técnicas de engenharia de dados, análise financeira e machine learning para criar um pipeline reprodutível que vai desde a ingestão de dados de mercado até a simulação de estratégias de trading com automação. Este projeto é estritamente educacional e não constitui recomendação de investimento.
 
 Sumário
+- [Visão Geral](#-visao-geral)
 - [Objetivos](#-objetivos)
 - [Informações do Curso](#-informações-do-curso)
 - [Checklist Pré-Curso](#-checklist-précurso)
@@ -15,7 +16,18 @@ Sumário
 - [Métricas & Relatórios](#-métricas--relatórios)
 - [Qualidade & Boas Práticas](#-qualidade--boas-práticas)
 - [Etiquetas para Dúvidas (Slack)](#-etiquetas-para-dúvidas-slack)
-- [Licença](#-licença)
+- [Conclusão](#-conclusao)
+
+## Visão Geral
+
+- Este projeto implementa um pipeline de ponta a ponta para análise de ações, com foco em:
+- Ingestão de dados financeiros (via Yahoo Finance API – yfinance)
+- Tratamento e geração de features (retornos, volatilidade, indicadores técnicos, calendário)
+- Modelagem analítica (regressão para retornos futuros, classificação para direção de mercado)
+- Geração de sinais de trading (long/short)
+- Backtest e simulação (estratégias equally-weighted, custos de transação, métricas)
+- Automação e deployment (pipeline diário, Docker, cron, notificações por e-mail)
+- Reprodutibilidade e colaboração (CI/CD, pre-commit, testes unitários, notebooks e relatórios)
 
 ## Objetivos
 
@@ -24,6 +36,9 @@ Sumário
 - Treinar modelos de previsão (regressão e/ou classificação de direção).
 - Definir estratégias de trading e **backtestar** com métricas financeiras.
 - Automatizar a rotina diária (cron/Airflow), empacotar (Docker) e validar (CI + testes).
+- Demonstrar aplicação prática de ciência de dados no mercado financeiro.
+- Criar um projeto reprodutível, organizado e extensível.
+- Atender os critérios de avaliação do curso, incluindo ingestão, features, modelagem, backtest, automação e documentação.
 
 ## Informações do Curso
 
@@ -68,77 +83,104 @@ Sumário
 
 ## Entregáveis do Projeto
 
-### Módulo 1 — Introduction & Data Sources
-- Decisões orientadas por dados; panorama de investimentos; risco × retorno  
-- Setup (Colab/local) e download inicial via APIs financeiras  
-- Escolha de API (critérios, limites, custo)  
-**Entregáveis:**  
-- `src/data/ingest.py` (CLI de ingestão)  
-- Persistência em `data/processed/` (parquet) e/ou `storage/app.db` (SQLite)  
-- README seção “Data Sources & Setup”
+1️⃣ Ingestão de Dados
 
-### Módulo 2 — Working with the Data (Pandas)
-- Núcleo: **NumPy, Pandas, Matplotlib, Seaborn, Plotly Express**  
-- Tipos (numérico, string, data), *dummies*, *feature generation* (dow/dom/mês, retornos, janelas móveis)  
-- Indicadores técnicos (**TA-Lib** ou `ta`: SMA/EMA, RSI, MACD, BB, ATR)  
-- *Data cleaning*, *joins*, EDA e correlações  
-**Entregáveis:**  
-- `src/features/build_features.py`  
-- `notebooks/01_eda_features.ipynb`  
-- `reports/eda_summary.md` (+ figuras em `reports/img/`)
+- Fonte: Yahoo Finance via yfinance.
+- Incremental, persistência em Parquet e SQLite.
+- Configuração via .env.
+- Script: src/data/ingest.py.
 
-### Módulo 3 — Analytical Modeling
-- Hipóteses e previsão de séries (tendência/sazonalidade)  
-- Regressão (p.ex. Linear/Ridge/Lasso) e Classificação (Logistic/RandomForest)  
-- (Opcional) exemplo *neural*  
-- *TimeSeriesSplit* / *walk-forward*, métricas (MAE/MAPE, AUC/F1)  
-**Entregáveis:**  
-- `src/models/train.py` (pipelines + artefatos em `models/`)  
-- `reports/modeling_report.md`
+2️⃣ Feature Engineering
 
-### Módulo 4 — Trading Strategy & Simulation
-- Da previsão ao sinal: *thresholds*, *position sizing*, risco e taxas  
-- Exemplos: **buy & hold**, portfólio diversificado, **market-neutral**, *mean reversion*, dividendos, *penny stocks*  
-- (Talvez) opções básicas  
-- Simulação: execução “próxima abertura”, custos, *slippage*  
-**Entregáveis:**  
-- `src/strategy/generate_signals.py`  
-- `src/backtest/{simulator.py,metrics.py}`  
-- `reports/backtest_results.md` (equity curve, drawdown, tabela de métricas)
+- Retornos (1d, 5d, 21d).
+- Volatilidade rolling.
+- Features de calendário (dia da semana, mês).
+- Indicadores técnicos (SMA, EMA, RSI, MACD, Bollinger).
+- Targets (regressão: retorno 5d, classificação: direção 5d).
+- Script: src/features/build_features.py.
 
-### Módulo 5 — Deployment & Automation
-- Notebooks → scripts `.py` (CLIs)  
-- Armazenamento persistente (arquivos/SQLite + intro a SQL)  
-- Automação: **cron** e/ou **Apache Airflow** (DAG diária)  
-- (Talvez) e-mail automático com previsões/trades/PnL  
-**Entregáveis:**  
-- `src/app/{predict_daily.py,run_daily_pipeline.py}`  
-- `docker/Dockerfile`, `.github/workflows/ci.yml`  
-- README com instruções de execução/automação
+3️⃣ Modelagem
+
+- Regressão Linear (previsão de retornos).
+- Logistic Regression (direção positiva/negativa).
+- Split temporal (TimeSeriesSplit).
+- Métricas: MAE, MAPE, Accuracy, F1, AUC.
+- Artefatos salvos em models/.
+- Script: src/models/train.py.
+
+4️⃣ Estratégias & Sinais
+
+- Conversão de previsões em sinais (+1 long, -1 short, 0 flat).
+- Geração em data/signals/.
+- Script: src/strategy/generate_signals.py.
+
+5️⃣ Backtest
+
+- Simulação next-day.
+- Custos e slippage configuráveis.
+- Métricas: CAGR, Sharpe, Volatilidade anualizada, Max Drawdown.
+- Saídas: positions.parquet, equity.parquet, summary.json.
+- Script: src/backtest/simulator.py.
+
+6️⃣ Automação & Deployment
+
+- Pipeline diário end-to-end: src/app/run_daily_pipeline.py.
+- Previsões diárias: src/app/predict_daily.py.
+- Notificação por e-mail (opcional): src/notify/email_report.py.
+- Deployment via Docker e Compose.
+- Automação via cron (ops/cron.example)
 
 ## Estrutura do Repositório
 
 ```
-├── README.md
-├── pyproject.toml
-├── .gitignore
-├── .pre-commit-config.yaml
-├── Makefile
-├── .env.example
-├── data/                 # Dados brutos, processados e resultados
-├── models/               # Modelos treinados
-├── reports/              # Relatórios e imagens
-├── storage/              # Banco SQLite
-├── notebooks/            # EDA e análises exploratórias
-└── src/                  # Código-fonte organizado por módulos
-    ├── data/             # Ingestão
-    ├── features/         # Engenharia de features
-    ├── models/           # Treinamento
-    ├── strategy/         # Estratégias de trading
-    ├── backtest/         # Simulação e métricas
-    ├── app/              # Automação e execução diária
-    └── notify/           # Notificações
-tests/                    # Testes unitários
+stocks-analytics-zoomcamp-2025/
+│
+├── data/                  # Dados (não versionados no Git)
+│   ├── raw/               # Dados brutos (download da API)
+│   ├── processed/         # Dados tratados (parquet/csv/sqlite)
+│   ├── analytics/         # Features e previsões
+│   ├── signals/           # Sinais de trading
+│   └── backtests/         # Resultados de simulação
+│
+├── models/                # Modelos treinados (.pkl)
+│
+├── notebooks/             # Notebooks exploratórios
+│   ├── 01_eda_features.ipynb
+│   ├── 02_modeling.ipynb
+│   └── 03_trading_strategy.ipynb
+│
+├── reports/               # Relatórios
+│   ├── eda_summary.md
+│   ├── modeling_report.md
+│   ├── backtest_results.md
+│   └── img/               # Gráficos
+│
+├── src/                   # Código principal
+│   ├── data/              # Ingestão
+│   ├── features/          # Features
+│   ├── models/            # Treinamento
+│   ├── strategy/          # Sinais
+│   ├── backtest/          # Simulador & métricas
+│   ├── app/               # Pipeline & previsões
+│   ├── notify/            # Notificações (e-mail)
+│   ├── utils/             # Funções utilitárias
+│   └── config.py          # Configurações globais (.env)
+│
+├── tests/                 # Testes unitários (pytest)
+│
+├── docker/                # Dockerfile
+├── ops/                   # Automação
+├── scripts/               # Scripts auxiliares (ex.: run_local.sh)
+│
+├── .github/workflows/     # CI/CD (lint, format, tests)
+│
+├── .env.example           # Exemplo de variáveis
+├── requirements.txt       # Dependências
+├── pyproject.toml         # Configuração do projeto
+├── docker-compose.yml     # Orquestração via Compose
+├── Makefile               # Atalhos (lint, test, run, etc.)
+├── CONTRIBUTING.md        # Guia de contribuição
+└── README.md              # Este documento
 ```
 
 ## Configuração & Instalação
@@ -167,6 +209,20 @@ Configure o arquivo .env baseado em .env.example:
 DATA_START=2015-01-01
 TICKERS=AAPL,MSFT,SPY
 DB_PATH=storage/app.db
+```
+
+#### Docker
+
+```
+docker compose up --build
+```
+
+#### Cron
+
+Agende via ops/cron:
+
+```
+30 19 * * * /path/to/scripts/run_local.sh >> /path/to/logs/cron.log 2>&1
 ```
 
 ## Execução (Makefile)
@@ -225,7 +281,18 @@ gráficos de equity curve e drawdown em reports/img/
 - **Docker**: container para rodar pipeline end-to-end
 - **CI/CD**: lint, testes e build automatizados com GitHub Actions
 
+## Conclusão
 
+Este projeto cobre todos os critérios de avaliação do curso:
+
+- Ingestão → ✅
+- Features → ✅
+- Modelagem → ✅
+- Estratégias & Backtest → ✅
+- Automação & Deployment → ✅
+- Reprodutibilidade & Documentação → ✅
+
+Demonstra aplicação prática de ciência de dados no mercado financeiro, com código aberto, modular, testável e pronto para extensão futura.
 
 
 

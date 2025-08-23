@@ -4,10 +4,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "stocks-analytics-zoomcamp-2025"
-version = "0.1.0"
+version = "0.2.0"
 description = "Projeto educacional do Stock Market Analytics Zoomcamp 2025"
 authors = [
-    { name = "nathalia_adriele", email = "adriele@gmail.com" }
+    { name = "Nath", email = "your_email@example.com" }
 ]
 readme = "README.md"
 license = { file = "LICENSE" }
@@ -28,6 +28,7 @@ dependencies = [
     "pydantic>=2.6.0",
     "quantstats>=0.0.62",
     "joblib>=1.3.0",
+    "xgboost>=2.0.0",            # Boosting (reg/cls)
 ]
 
 [project.optional-dependencies]
@@ -37,6 +38,9 @@ dev = [
     "black>=24.4.0",
     "pre-commit>=3.6.0"
 ]
+deep = [
+    "tensorflow>=2.17.0"         # Para LSTM (opcional)
+]
 
 [tool.black]
 line-length = 88
@@ -45,14 +49,12 @@ target-version = ["py311"]
 [tool.ruff]
 line-length = 88
 select = ["E", "F", "B", "C90"]
-ignore = ["E501"]  # ignorar linhas longas se necessário
+ignore = ["E501"]
 
 [tool.pytest.ini_options]
 minversion = "8.0"
 addopts = "-ra -q"
-testpaths = [
-    "tests",
-]
+testpaths = ["tests"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
