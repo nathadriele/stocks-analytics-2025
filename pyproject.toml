@@ -7,7 +7,7 @@ name = "stocks-analytics-zoomcamp-2025"
 version = "0.1.0"
 description = "Projeto educacional do Stock Market Analytics Zoomcamp 2025"
 authors = [
-    { name = "Nath", email = "your_email@example.com" }
+    { name = "nathalia_adriele", email = "adriele@gmail.com" }
 ]
 readme = "README.md"
 license = { file = "LICENSE" }
@@ -27,6 +27,7 @@ dependencies = [
     "typer>=0.9.0",
     "pydantic>=2.6.0",
     "quantstats>=0.0.62",
+    "joblib>=1.3.0",
 ]
 
 [project.optional-dependencies]
