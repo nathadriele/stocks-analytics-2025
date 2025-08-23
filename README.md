@@ -18,7 +18,9 @@ Projeto desenvolvido como parte do **Stock Market Analytics Zoomcamp (2025)**. O
 - [Métricas & Relatórios](#-métricas--relatórios)
 - [Qualidade & Boas Práticas](#-qualidade--boas-práticas)
 - [Etiquetas para Dúvidas (Slack)](#-etiquetas-para-dúvidas-slack)
+- [Resultados](#-resultados)
 - [Conclusão](#-conclusao)
+- [Contribuição](#-contribuicao)
 
 ## Visão Geral
 
@@ -257,7 +259,7 @@ gráficos de equity curve e drawdown em reports/img/
 - Segredos fora do repositório (.env, nunca versionar)
 - Documentação clara (README + reports/*)
 
-## Resultados Esperados
+## Resultados
 
 - EDA: gráficos de preços, retornos, correlações e indicadores técnicos.
 - Modelos: métricas de previsão (MAE, MAPE, AUC, F1).
@@ -266,6 +268,8 @@ gráficos de equity curve e drawdown em reports/img/
    - Drawdown máximo
    - Taxa de acerto e nº de trades
    - Comparação com benchmark (buy & hold)
+ 
+<img width="844" height="562" alt="7" src="https://github.com/user-attachments/assets/883e565f-bd20-4001-89ee-1b80dea851d5" />
 
 ## Automação e Deploy
 
@@ -287,23 +291,57 @@ Este projeto cobre todos os critérios de avaliação do curso:
 
 Demonstra aplicação prática de ciência de dados no mercado financeiro, com código aberto, modular, testável e pronto para extensão futura.
 
+## Contribuição
 
+Siga estas orientações para manter o projeto limpo, reprodutível e fácil de evoluir:  
 
+1. **Fork & Branch**  
+   - Faça um fork do repositório.  
+   - Crie uma branch a partir de `main`:  
+     ```bash
+     git checkout -b feature/nome-da-feature
+     ```
 
+2. **Configuração do ambiente**  
+   - Configure o ambiente virtual e instale dependências com:  
+     ```bash
+     python -m venv .venv
+     source .venv/bin/activate   # Windows: .venv\Scripts\activate
+     pip install -e ".[dev]"
+     pre-commit install
+     ```
 
+3. **Padrões de código**  
+   - Utilize **Black** (formatação), **Ruff** (lint) e **Pre-commit**.  
+   - Antes de commitar:  
+     ```bash
+     make format   # aplica Black
+     make lint     # roda Ruff
+     make test     # pytest
+     ```
 
+4. **Mensagens de commit**  
+   - Escreva no **imperativo** e de forma clara:  
+     - `Add RSI feature to build_features`  
+     - `adicionando RSI`  
 
+5. **Pull Request**  
+   - Abra um PR descrevendo **o que** foi alterado, **por que** e **como testar**.  
+   - Garanta que os testes passam no CI.  
 
+6. **Testes**  
+   - Todo novo código deve incluir ou atualizar testes em `tests/`.  
+   - Rodar testes localmente:  
+     ```bash
+     make test
+     ```
 
+7. **Boas práticas**  
+   - Não versionar segredos (`.env`).  
+   - Não incluir dados brutos em Git (apenas `.gitkeep`).  
+   - Documentar novas funções/módulos com docstrings.  
 
+---
 
-
-
-
-
-
-
-
-
-
+Para detalhes adicionais, veja [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
