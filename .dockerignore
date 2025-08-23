@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pkl
+*.egg-info/
+*.egg
+*.log
+
+# Virtual envs
+.env/
+.venv/
+venv/
+ENV/
+env.bak/
+
+# Jupyter
+.ipynb_checkpoints
+.notebooks_cache
+
+# Dados locais
+data/raw/*
+data/processed/*
+data/analytics/*
+data/signals/*
+data/backtests/*
+storage/*
+
+# Relatórios/imagens
+reports/img/*
+reports/*.html
+
+# Cache / build
+.cache/
+.build/
+dist/
+*.tar.gz
+
+# Git
+.git
+.gitignore
