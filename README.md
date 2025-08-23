@@ -6,21 +6,34 @@ Projeto desenvolvido como parte do **Stock Market Analytics Zoomcamp (2025)**. O
 
 ## Sumário
 
-- [Visão Geral](#-visao-geral)
-- [Objetivos](#-objetivos)
-- [Informações do Curso](#-informações-do-curso)
-- [Materiais de Apoio](#-materiais-de-apoio)
-- [Syllabus → Entregáveis do Projeto](#-syllabus--entregáveis-do-projeto)
-- [Estrutura do Repositório](#-estrutura-do-repositório)
-- [Configuração & Instalação](#-configuração--instalação)
-- [Execução (Makefile)](#-execução-makefile)
-- [Configuração (.env)](#-configuração-env)
-- [Métricas & Relatórios](#-métricas--relatórios)
-- [Qualidade & Boas Práticas](#-qualidade--boas-práticas)
-- [Etiquetas para Dúvidas (Slack)](#-etiquetas-para-dúvidas-slack)
-- [Resultados](#-resultados)
-- [Conclusão](#-conclusao)
-- [Contribuição](#-contribuicao)
+- [Visão Geral](#-visao-geral)  
+- [Objetivos](#-objetivos)  
+- [Informações do Curso](#-informações-do-curso)  
+- [Materiais de Apoio](#-materiais-de-apoio)  
+
+### 🔹 Desenvolvimento do Projeto
+- [Syllabus → Entregáveis do Projeto](#-syllabus--entregáveis-do-projeto)  
+- [Estrutura do Repositório](#-estrutura-do-repositório)  
+
+### 🔹 Configuração e Execução
+- [Configuração & Instalação](#-configuração--instalação)  
+- [Configuração (.env)](#-configuração-env)  
+- [Execução (Makefile)](#-execução-makefile)  
+
+### 🔹 Avaliação e Resultados
+- [Métricas & Relatórios](#-métricas--relatórios)  
+- [Resultados](#-resultados)  
+
+### 🔹 Boas Práticas e Automação
+- [Qualidade & Boas Práticas](#-qualidade--boas-práticas)  
+- [Automação e Deploy](#-automação-e-deploy)  
+
+### 🔹 Colaboração
+- [Etiquetas para Dúvidas (Slack)](#-etiquetas-para-dúvidas-slack)  
+- [Contribuição](#-contribuição)  
+
+### 🔹 Encerramento
+- [Conclusão](#-conclusão)  
 
 ## Visão Geral
 
