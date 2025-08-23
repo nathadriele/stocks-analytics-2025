@@ -125,6 +125,8 @@ Projeto desenvolvido como parte do **Stock Market Analytics Zoomcamp (2025)**. O
 - Deployment via Docker e Compose.
 - Automação via cron (ops/cron.example)
 
+<img width="285" height="581" alt="8" src="https://github.com/user-attachments/assets/a74f0d57-377c-4699-a1f0-8e3788fa5318" />
+
 ## Estrutura do Repositório
 
 ```
