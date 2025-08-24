@@ -6,34 +6,42 @@ Projeto desenvolvido como parte do **Stock Market Analytics Zoomcamp (2025)**. O
 
 ## Sumário
 
-- [Visão Geral](#-visao-geral)  
-- [Objetivos](#-objetivos)  
-- [Informações do Curso](#-informações-do-curso)  
-- [Materiais de Apoio](#-materiais-de-apoio)  
+### 🔹 Contextualização do Projeto
+- [Visão Geral](#visão-geral)  
+- [Objetivos](#objetivos)  
+- [Informações do Curso](#informações-do-curso)  
+- [Materiais de Apoio](#materiais-de-apoio)  
 
-### 🔹 Desenvolvimento do Projeto
-- [Syllabus → Entregáveis do Projeto](#-syllabus--entregáveis-do-projeto)  
-- [Estrutura do Repositório](#-estrutura-do-repositório)  
+### 🔹 Desenvolvimento
+- [Entregáveis do Projeto](#entregáveis-do-projeto)  
+  - [Ingestão de Dados](#1-ingestão-de-dados)  
+  - [Feature Engineering](#2-feature-engineering)  
+  - [Modelagem](#3-modelagem)  
+  - [Estratégias & Sinais](#4-estratégias--sinais)  
+  - [Backtest](#5-backtest)  
+  - [Automação & Deployment](#6-automação--deployment)  
+- [Estrutura do Repositório](#estrutura-do-repositório)  
 
 ### 🔹 Configuração e Execução
-- [Configuração & Instalação](#-configuração--instalação)  
-- [Configuração (.env)](#-configuração-env)  
-- [Execução (Makefile)](#-execução-makefile)  
+- [Configuração & Instalação](#configuração--instalação)  
+  - [Docker](#docker)  
+  - [Cron](#cron)  
+- [Execução (Makefile)](#execução-makefile)  
+- [Configuração (.env)](#configuração-env)  
 
 ### 🔹 Avaliação e Resultados
-- [Métricas & Relatórios](#-métricas--relatórios)  
-- [Resultados](#-resultados)  
+- [Métricas & Relatórios](#métricas--relatórios)  
+- [Resultados](#resultados)  
 
 ### 🔹 Boas Práticas e Automação
-- [Qualidade & Boas Práticas](#-qualidade--boas-práticas)  
-- [Automação e Deploy](#-automação-e-deploy)  
+- [Qualidade & Boas Práticas](#qualidade--boas-práticas)  
+- [Automação e Deploy](#automação-e-deploy)  
 
 ### 🔹 Colaboração
-- [Etiquetas para Dúvidas (Slack)](#-etiquetas-para-dúvidas-slack)  
-- [Contribuição](#-contribuição)  
+- [Contribuição](#contribuição)  
 
 ### 🔹 Encerramento
-- [Conclusão](#-conclusão)  
+- [Conclusão](#conclusão)  
 
 ## Visão Geral
 
