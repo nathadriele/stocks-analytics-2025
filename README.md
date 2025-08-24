@@ -301,19 +301,6 @@ gráficos de equity curve e drawdown em reports/img/
 - **Docker**: container para rodar pipeline end-to-end
 - **CI/CD**: lint, testes e build automatizados com GitHub Actions
 
-## Conclusão
-
-Este projeto cobre todos os critérios de avaliação do curso:
-
-- Ingestão → ✅
-- Features → ✅
-- Modelagem → ✅
-- Estratégias & Backtest → ✅
-- Automação & Deployment → ✅
-- Reprodutibilidade & Documentação → ✅
-
-Demonstra aplicação prática de ciência de dados no mercado financeiro, com código aberto, modular, testável e pronto para extensão futura.
-
 ## Contribuição
 
 Siga estas orientações para manter o projeto limpo, reprodutível e fácil de evoluir:  
@@ -364,7 +351,18 @@ Siga estas orientações para manter o projeto limpo, reprodutível e fácil de 
    - Não incluir dados brutos em Git (apenas `.gitkeep`).  
    - Documentar novas funções/módulos com docstrings.  
 
----
-
 Para detalhes adicionais, veja [`CONTRIBUTING.md`](CONTRIBUTING.md).
+
+## Conclusão
+
+Este projeto cobre todos os critérios de avaliação do curso:
+
+- Ingestão → ✅
+- Features → ✅
+- Modelagem → ✅
+- Estratégias & Backtest → ✅
+- Automação & Deployment → ✅
+- Reprodutibilidade & Documentação → ✅
+
+Demonstra aplicação prática de ciência de dados no mercado financeiro, com código aberto, modular, testável e pronto para extensão futura.
 
