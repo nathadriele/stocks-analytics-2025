@@ -99,6 +99,8 @@ Projeto desenvolvido como parte do **Stock Market Analytics Zoomcamp (2025)**. O
 
 ## Entregáveis do Projeto
 
+<img width="322" height="511" alt="image" src="https://github.com/user-attachments/assets/7b4fd5dd-2720-4081-91c2-b93d46faa2ff" />
+
 1️⃣ Ingestão de Dados
 
 - Fonte: Yahoo Finance via yfinance.
@@ -145,8 +147,6 @@ Projeto desenvolvido como parte do **Stock Market Analytics Zoomcamp (2025)**. O
 - Notificação por e-mail (opcional): src/notify/email_report.py.
 - Deployment via Docker e Compose.
 - Automação via cron (ops/cron.example)
-
-<img width="285" height="581" alt="8" src="https://github.com/user-attachments/assets/a74f0d57-377c-4699-a1f0-8e3788fa5318" />
 
 ## Estrutura do Repositório
 
