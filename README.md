@@ -187,6 +187,8 @@ stocks-analytics-2025/
 
 ## Métricas e Resultados
 
+<img width="2378" height="1980" alt="output" src="https://github.com/user-attachments/assets/f085948e-1a3c-4b52-9868-25ee5c79bf19" />
+
 - Modelos:
     - MAE, MAPE (regressão).
     - Accuracy, F1, AUC (classificação).
