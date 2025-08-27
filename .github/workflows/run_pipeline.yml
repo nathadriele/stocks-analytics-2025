@@ -1,0 +1,48 @@
+name: daily-pipeline
+
+on:
+  schedule:
+    - cron: "30 22 * * 1-5"  # dias úteis 22:30 UTC
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install system deps
+        run: sudo apt-get update && sudo apt-get install -y libsqlite3-dev
+      - name: Install Python deps
+        run: |
+          pip install -U pip
+          pip install -r requirements.txt
+          pip install xgboost pandas_datareader
+      - name: Prepare data (optional bulk ingest if missing)
+        run: |
+          mkdir -p data/processed data/analytics data/signals data/backtests reports/img storage
+          if [ ! -f data/processed/prices.parquet ]; then
+            echo "ticker" > data/raw_tickers.csv
+            echo "AAPL" >> data/raw_tickers.csv
+            echo "MSFT" >> data/raw_tickers.csv
+            echo "SPY"  >> data/raw_tickers.csv
+            python -m src.data.bulk_ingest --tickers-path data/raw_tickers.csv --provider stooq --start 2010-01-01 --out-parquet data/processed/prices.parquet
+          fi
+      - name: Run end-to-end pipeline
+        env:
+          TIINGO_API_KEY: ${{ secrets.TIINGO_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          ALPACA_KEY_ID: ${{ secrets.ALPACA_KEY_ID }}
+          ALPACA_SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
+        run: python -m src.app.run_all
+      - name: Upload artifacts (reports)
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports
+          path: |
+            reports/**
+            data/backtests/**
+            data/backtests/exact/**
