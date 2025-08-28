@@ -53,32 +53,32 @@ Este projeto implementa exatamente esse ciclo, usando Python, bibliotecas open-s
 
 O fluxo segue 7 camadas principais:
 
-- Ingestão de Dados
+- **Ingestão de Dados**
      - Coleta incremental via yfinance, Stooq e Tiingo.
      - Armazenamento em Parquet (análises locais) e SQLite (persistência).
 
-- Feature Engineering
+- **Feature Engineering**
      - Retornos (1d, 5d, 21d), volatilidade, indicadores técnicos (RSI, MACD, Bollinger).
      - 36+ features documentadas em reports/features_catalog.md.
 
-- Modelagem
+- **Modelagem**
      - DecisionTree, RandomForest (com tuning).
      - Regras custom por probabilidade.
      - Novos modelos: XGBoost com calibração.
 
-- Sinais de Trading
+- **Sinais de Trading**
      - Conversão de previsões em sinais (+1 long, -1 short, 0 flat).
      - Estratégias: long-only, long-short, top-k, probabilidade.
 
-- Backtesting
+- **Backtesting**
      - Vetorial: simulações rápidas.
      - Exata (iterativa): reinvestimento, SL/TP, gestão de risco.
      - Métricas: CAGR, Sharpe, Sortino, Drawdown, Rolling returns.
 
-- Relatórios & Métricas
+- **Relatórios & Métricas**
      - reports/backtest_results.md + gráficos de equity curve e drawdown.
       
-- Automação & Deploy
+- **Automação & Deploy**
      - src/app/run_all.py: pipeline fim-a-fim.
      - Docker/Compose para empacotamento.
      - GitHub Actions com agendamento diário.
@@ -87,26 +87,26 @@ O fluxo segue 7 camadas principais:
 
 ## Desenvolvimento e Entregáveis
 
-1️⃣ Ingestão de Dados
+1️⃣ **Ingestão de Dados**
 
 - Scripts: src/data/ingest.py, src/data/alt_provider.py.
 - Fontes: Yahoo Finance, Stooq, Tiingo.
 - Incremental, com persistência em Parquet + SQLite.
 
-2️⃣ Feature Engineering
+2️⃣ **Feature Engineering**
 
 - Scripts: src/features/build_features.py.
 - Features: retornos, volatilidade, indicadores técnicos, calendário, interações.
 - Catálogo: reports/features_catalog.md.
 
-3️⃣ Modelagem
+3️⃣**Modelagem**
 
 - Modelos básicos: DecisionTree, RandomForest.
 - Tuning: GridSearchCV, RandomizedSearchCV.
 - Novo modelo: XGBoost.
 - Scripts: scripts/train_trees.py, scripts/train_xgb.py.
 
-4️⃣ Estratégias & Sinais
+4️⃣ **Estratégias & Sinais**
 
 - Script: src/strategy/generate_signals.py.
 - Estratégias suportadas:
@@ -115,7 +115,7 @@ O fluxo segue 7 camadas principais:
 - Probabilidade calibrada.
 - Top-k seleções.
 
-5️⃣ Backtest
+5️⃣ **Backtest**
 
 Scripts:
 
@@ -124,7 +124,7 @@ Scripts:
 - Métricas: CAGR, Sharpe, Sortino, Drawdown, Volatilidade, WinRate, Turnover.
 - Relatórios: reports/backtest_results.md.
 
-6️⃣ Automação & Deployment
+6️⃣ **Automação & Deployment**
 
 - Pipeline: src/app/run_all.py.
 - Dockerfile e docker-compose.yml.
