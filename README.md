@@ -1,6 +1,6 @@
 # Stocks Analytics 2025
 
-<img width="1672" height="571" alt="6" src="https://github.com/user-attachments/assets/76b76843-6f1f-4122-9384-28de1e88b30f" />
+<img width="1853" height="543" alt="capa" src="https://github.com/user-attachments/assets/44d66af9-b8ec-44d8-8ee5-bade8f72415a" />
 
 Projeto desenvolvido como parte do **Stock Market Analytics Zoomcamp (2025)**. O objetivo é aplicar técnicas de engenharia de dados, análise financeira e machine learning para criar um pipeline reprodutível que vai desde a ingestão de dados de mercado até a simulação de estratégias de trading com automação. Este projeto é estritamente educacional e não constitui recomendação de investimento.
 
